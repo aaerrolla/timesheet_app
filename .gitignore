@@ -131,3 +131,9 @@ Thumbs.db
 timesheet.db
 timesheet.db-journal
 *.log
+
+# Flask session-signing key, generated per-environment on first run.
+.flask_secret
+
+# Fallback "sent" emails when SMTP isn't configured (contains temp passwords).
+outbox/

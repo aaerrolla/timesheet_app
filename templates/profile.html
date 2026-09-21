@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - Timesheet</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <h1>Profile</h1>
+    <nav class="navbar">
+      <a href="/">&larr; Back to timesheet</a>
+      <button type="button" id="logoutBtn">Log out</button>
+    </nav>
+  </header>
+
+  <div id="banner" class="banner hidden"></div>
+
+  <section class="card-section">
+    <h2>Your details</h2>
+    <p class="muted" id="emailDisplay"></p>
+    <form id="profileForm">
+      <div class="form-row">
+        <label>First name
+          <input type="text" id="firstName" maxlength="60" placeholder="First name">
+        </label>
+        <label>Last name
+          <input type="text" id="lastName" maxlength="60" placeholder="Last name">
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Mobile phone
+          <input type="tel" id="mobilePhone" maxlength="30" placeholder="e.g. +91 98765 43210">
+        </label>
+        <label>Entity name
+          <input type="text" id="entityName" maxlength="120" placeholder="Company / organization">
+        </label>
+      </div>
+      <button type="submit" class="primary">Save profile</button>
+    </form>
+  </section>
+
+  <section class="card-section">
+    <h2>Change password</h2>
+    <form id="passwordForm">
+      <label>Current password
+        <input type="password" id="currentPassword" required autocomplete="current-password">
+      </label>
+      <label>New password
+        <input type="password" id="newPassword" required autocomplete="new-password" minlength="8">
+      </label>
+      <label>Confirm new password
+        <input type="password" id="confirmPassword" required autocomplete="new-password" minlength="8">
+      </label>
+      <button type="submit" class="primary">Update password</button>
+    </form>
+  </section>
+</div>
+<script src="{{ url_for('static', filename='profile.js') }}"></script>
+</body>
+</html>

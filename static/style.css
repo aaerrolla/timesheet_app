@@ -229,3 +229,147 @@ td.day-total.over, th.day-total-cell.over {
   .week-label { min-width: 0; }
   .topbar h1 { font-size: 18px; }
 }
+
+/* ---------------------------------------------------------------------
+   Navbar (user greeting / profile / logout), used on the main app page
+   and the profile page.
+--------------------------------------------------------------------- */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+}
+.navbar a {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+.navbar a:hover { text-decoration: underline; }
+.user-greeting {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ---------------------------------------------------------------------
+   Auth pages: login / register / change-password, centered card layout.
+--------------------------------------------------------------------- */
+body.auth-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-page {
+  width: 100%;
+  padding: 20px;
+}
+
+.auth-card {
+  max-width: 380px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 26px 32px;
+  box-shadow: 0 4px 18px rgba(20, 25, 40, 0.06);
+}
+
+.auth-card h1 {
+  font-size: 20px;
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+.tabs {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.tab-btn {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  background: var(--bg);
+  padding: 9px 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.tab-btn.active {
+  background: var(--accent);
+  color: white;
+}
+.tab-btn:hover { color: var(--accent-dark); }
+.tab-btn.active:hover { color: white; }
+
+.tab-panel.hidden { display: none; }
+
+form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+form label input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+}
+form label input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(47,111,237,0.15);
+}
+
+button.full { width: 100%; margin-top: 4px; }
+
+.muted { color: var(--muted); font-size: 13px; }
+.hint-inline { color: var(--muted); font-size: 12px; margin: -6px 0 14px; }
+
+.link-btn {
+  display: block;
+  margin: 16px auto 0;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: underline;
+  padding: 4px;
+}
+.link-btn:hover { color: var(--danger); }
+
+/* ---------------------------------------------------------------------
+   Profile page: card sections with a two-column form row.
+--------------------------------------------------------------------- */
+.card-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+.card-section h2 {
+  font-size: 16px;
+  margin: 0 0 14px;
+}
+.card-section form label {
+  margin-bottom: 14px;
+}
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+.form-row label { flex: 1; }
+
+@media (max-width: 560px) {
+  .form-row { flex-direction: column; gap: 0; }
+}

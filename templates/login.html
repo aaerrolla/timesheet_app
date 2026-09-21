@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in - Timesheet</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-body">
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Timesheet</h1>
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="login">Sign in</button>
+      <button type="button" class="tab-btn" data-tab="register">Create account</button>
+    </div>
+
+    <div id="banner" class="banner hidden"></div>
+
+    <form id="loginForm" class="tab-panel">
+      <label>Email
+        <input type="email" id="loginEmail" required autocomplete="username">
+      </label>
+      <label>Password
+        <input type="password" id="loginPassword" required autocomplete="current-password">
+      </label>
+      <button type="submit" class="primary full">Sign in</button>
+    </form>
+
+    <form id="registerForm" class="tab-panel hidden">
+      <p class="muted">Enter your email and we'll send you a temporary password to sign in with.</p>
+      <label>Email
+        <input type="email" id="registerEmail" required autocomplete="username">
+      </label>
+      <button type="submit" class="primary full">Create account</button>
+    </form>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='auth.js') }}"></script>
+</body>
+</html>

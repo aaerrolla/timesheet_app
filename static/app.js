@@ -38,16 +38,45 @@
   }
 
   // ---------------------------------------------------------------------
+  // Auth-aware fetch: redirects to /login or /change-password instead of
+  // letting a 401/403 fall through as a generic error, since a session can
+  // expire (or a forced password change can still be pending) mid-use.
+  // Returns null after redirecting so callers can bail out silently.
+  // ---------------------------------------------------------------------
+  async function apiFetch(url, options) {
+    const res = await fetch(url, options);
+    if (res.status === 401) {
+      window.location.href = "/login";
+      return null;
+    }
+    if (res.status === 403) {
+      let body = {};
+      try {
+        body = await res.clone().json();
+      } catch (e) {
+        /* ignore */
+      }
+      if (body.code === "password_change_required") {
+        window.location.href = "/change-password";
+        return null;
+      }
+    }
+    return res;
+  }
+
+  // ---------------------------------------------------------------------
   // Data loading
   // ---------------------------------------------------------------------
   async function loadProjects() {
-    const res = await fetch("/api/projects");
+    const res = await apiFetch("/api/projects");
+    if (!res) return;
     state.projects = await res.json();
   }
 
   async function loadWeek(dateStr) {
     const url = dateStr ? `/api/week?date=${dateStr}` : "/api/week";
-    const res = await fetch(url);
+    const res = await apiFetch(url);
+    if (!res) return;
     const data = await res.json();
     state.weekStart = data.week_start;
     state.days = data.days;
@@ -212,11 +241,12 @@
     input.classList.remove("invalid");
 
     try {
-      const res = await fetch("/api/entries", {
+      const res = await apiFetch("/api/entries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ project_id: projectId, entry_date: date, hours }),
       });
+      if (!res) return;
       const data = await res.json();
 
       if (!res.ok) {
@@ -257,11 +287,12 @@
     }
 
     try {
-      const res = await fetch(`/api/projects/${projectId}`, {
+      const res = await apiFetch(`/api/projects/${projectId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: newName }),
       });
+      if (!res) return;
       const data = await res.json();
 
       if (!res.ok) {
@@ -286,11 +317,12 @@
     const name = input.value.trim();
     if (!name) return;
     try {
-      const res = await fetch("/api/projects", {
+      const res = await apiFetch("/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name }),
       });
+      if (!res) return;
       const data = await res.json();
       if (!res.ok) {
         showBanner(data.error || "Could not add project.", "error");
@@ -308,7 +340,8 @@
   async function removeProject(projectId, name) {
     if (!confirm(`Remove "${name}" from the active project list? Past hours are kept.`)) return;
     try {
-      await fetch(`/api/projects/${projectId}`, { method: "DELETE" });
+      const res = await apiFetch(`/api/projects/${projectId}`, { method: "DELETE" });
+      if (!res) return;
       await loadProjects();
       renderBody();
       renderTotals();
@@ -332,6 +365,26 @@
   }
 
   // ---------------------------------------------------------------------
+  // Auth: greeting + logout. The server already redirects unauthenticated
+  // or must-change-password visitors away from this page, but we still
+  // fetch /api/auth/me to get the name to display and as a safety net in
+  // case the session expired between page load and now.
+  // ---------------------------------------------------------------------
+  async function loadCurrentUser() {
+    const res = await apiFetch("/api/auth/me");
+    if (!res) return null;
+    return res.json();
+  }
+
+  async function doLogout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } finally {
+      window.location.href = "/login";
+    }
+  }
+
+  // ---------------------------------------------------------------------
   // Wire up
   // ---------------------------------------------------------------------
   $("#addProjectBtn").addEventListener("click", addProject);
@@ -341,6 +394,15 @@
   $("#prevWeek").addEventListener("click", () => shiftWeek(-7));
   $("#nextWeek").addEventListener("click", () => shiftWeek(7));
   $("#thisWeek").addEventListener("click", () => refreshAll());
+  $("#logoutBtn").addEventListener("click", doLogout);
 
-  refreshAll();
+  async function init() {
+    const user = await loadCurrentUser();
+    if (!user) return; // apiFetch already redirected
+    const fullName = `${user.first_name || ""} ${user.last_name || ""}`.trim();
+    $("#userGreeting").textContent = `Hi, ${fullName || user.email}`;
+    await refreshAll();
+  }
+
+  init();
 })();
