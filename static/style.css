@@ -1,0 +1,231 @@
+:root {
+  --border: #d8dce1;
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --accent: #2f6fed;
+  --accent-dark: #1d4ed8;
+  --danger: #d64545;
+  --danger-bg: #fdecec;
+  --ok: #2e9e5b;
+  --text: #1f2430;
+  --muted: #6b7280;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.topbar h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.week-label {
+  font-weight: 600;
+  min-width: 220px;
+  text-align: center;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 14px;
+}
+
+button:hover { border-color: var(--accent); color: var(--accent-dark); }
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+button.primary:hover { background: var(--accent-dark); }
+
+.banner {
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+.banner.error { background: var(--danger-bg); color: var(--danger); border: 1px solid #f3b8b8; }
+.banner.success { background: #eafaf0; color: var(--ok); border: 1px solid #b9ecc9; }
+.hidden { display: none; }
+
+.add-project-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.add-project-row input {
+  flex: 1;
+  max-width: 280px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 760px;
+}
+
+th, td {
+  border-bottom: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+thead th {
+  background: #eef1f6;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.project-col, td.project-name {
+  text-align: left;
+  min-width: 160px;
+}
+
+td.project-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  border-bottom: none;
+}
+
+input.project-name-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 6px 6px;
+  border-radius: 5px;
+}
+input.project-name-input:hover {
+  border-color: var(--border);
+  background: var(--card);
+}
+input.project-name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--card);
+  box-shadow: 0 0 0 2px rgba(47,111,237,0.15);
+}
+
+.day-header .dow { display: block; font-weight: 700; }
+.day-header .date { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+
+input.hour-input {
+  width: 56px;
+  text-align: center;
+  padding: 6px 4px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 14px;
+}
+input.hour-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(47,111,237,0.15);
+}
+input.hour-input.invalid {
+  border-color: var(--danger);
+  background: var(--danger-bg);
+}
+
+.remove-project {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
+}
+.remove-project:hover { color: var(--danger); }
+
+tfoot th {
+  background: #f0f2f5;
+}
+td.day-total, th.day-total-cell {
+  font-weight: 600;
+}
+td.day-total.over, th.day-total-cell.over {
+  color: var(--danger);
+}
+
+.week-summary {
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.progress-outer {
+  margin-top: 6px;
+  height: 8px;
+  border-radius: 4px;
+  background: #e5e8ee;
+  overflow: hidden;
+}
+.progress-inner {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.2s ease;
+}
+.progress-inner.over { background: var(--danger); }
+
+.hint {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .week-label { min-width: 0; }
+  .topbar h1 { font-size: 18px; }
+}

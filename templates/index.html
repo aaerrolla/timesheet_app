@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timesheet</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <h1>Timesheet</h1>
+    <div class="week-nav">
+      <button id="prevWeek" title="Previous week">&laquo; Prev</button>
+      <div class="week-label" id="weekLabel">—</div>
+      <button id="thisWeek" title="Jump to current week">This week</button>
+      <button id="nextWeek" title="Next week">Next &raquo;</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner hidden"></div>
+
+  <div class="add-project-row">
+    <input type="text" id="newProjectName" placeholder="Add a project…" maxlength="80">
+    <button id="addProjectBtn">+ Add project</button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="grid">
+      <thead>
+        <tr id="headerRow">
+          <th class="project-col">Project</th>
+          <!-- day headers injected by JS -->
+        </tr>
+      </thead>
+      <tbody id="gridBody">
+        <!-- project rows injected by JS -->
+      </tbody>
+      <tfoot>
+        <tr id="totalsRow">
+          <th>Daily total</th>
+          <!-- daily total cells injected by JS -->
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="week-summary">
+    Week total: <span id="weekTotal">0</span> / <span id="maxWeek">40</span> hours
+    <div class="progress-outer"><div class="progress-inner" id="weekProgress"></div></div>
+  </div>
+
+  <p class="hint">
+    Enter hours per project per day (Monday–Sunday). Each day is capped at
+    <span id="maxDayHint">8</span> hours total, and the week is capped at
+    <span id="maxWeekHint">40</span> hours total. Set a cell to 0 or clear it to remove that entry.
+  </p>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
